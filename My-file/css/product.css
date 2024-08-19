@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: "Red Hat Text", system-ui;
+  background-color: #fcf8f5;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 5% 5% 0;
+  .desserts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 67%;
+    h1 {
+      width: 100%;
+      margin-bottom: 2%;
+    }
+    .dessert {
+      width: 31%;
+      margin-bottom: 4%;
+      position: relative;
+      .photo {
+        position: relative;
+        img {
+          width: 100%;
+          border-radius: 10px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          -ms-border-radius: 10px;
+          -o-border-radius: 10px;
+        }
+      }
+      .add {
+        cursor: pointer;
+        position: absolute;
+        left: 50%;
+        margin-top: -9%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        width: 75%;
+        padding: 4%;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        border: 1px solid #bc411a;
+        img {
+          margin-right: 5%;
+        }
+      }
+      .info {
+        margin-top: 10%;
+        .category {
+          color: #958786;
+        }
+        .name {
+          font-weight: 500;
+        }
+        .price {
+          font-weight: 500;
+          color: #bc411a;
+        }
+      }
+    }
+  }
+  .cart {
+    width: 30%;
+    background-color: #fff;
+    padding: 2%;
+    height: fit-content;
+    h2 {
+      color: #bc411a;
+    }
+    img {
+      display: block;
+      margin: 2% auto 0%;
+      padding: 10% 10% 5%;
+    }
+    p {
+      text-align: center;
+      font-weight: 500;
+      color: #5b4b48;
+    }
+  }
+}
+@media (max-width: 991px) {
+  .container {
+    .desserts {
+      width: 58%;
+      .dessert {
+        width: 47%;
+      }
+    }
+    .cart {
+      width: 39%;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .desserts {
+      width: 100%;
+      .dessert {
+        width: 45%;
+      }
+    }
+    .cart {
+      width: 100%;
+      margin-bottom: 10%;
+    }
+  }
+}
+@media (max-width: 575px) {
+  .container {
+    .desserts {
+      justify-content: center;
+      .dessert {
+        width: 100%;
+        margin-bottom: 8%;
+      }
+    }
+  }
+}
