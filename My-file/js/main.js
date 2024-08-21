@@ -1,5 +1,8 @@
 let dessertsContainer = document.querySelector(".desserts");
 
+let items = document.createElement("div");
+items.classList.add("items");
+
 createElement();
 
 let count = 0;
@@ -122,10 +125,10 @@ function addToCart(itemAdd) {
   if (!itemAdd.classList.contains("clicked")) {
     count = count + 1;
     cartQuantity.innerHTML = `Your Cart ( <span>${count}</span> )`;
-
-    let items = document.createElement("div");
-    items.classList.add("items");
-
+    if (!items) {
+      let items = document.createElement("div");
+      items.classList.add("items");
+    }
     let item = document.createElement("div");
     item.classList.add("item");
     item.id = `${itemAdd.dataset.dessert_name}`;
@@ -179,6 +182,10 @@ function addToCart(itemAdd) {
     cart.appendChild(items);
 
     itemAdd.classList.add("clicked");
+
+    removeItem.onclick = function () {
+      removeItemFromCart(itemAdd, item);
+    };
   } else {
     let incrementDiv = itemAdd.querySelector(".increment");
     let decrementDiv = itemAdd.querySelector(".decrement");
@@ -190,7 +197,11 @@ function addToCart(itemAdd) {
     };
   }
   let order = document.querySelector(".total-order");
-  if (order) order.remove();
+  let btnConf = document.querySelector(".confirm");
+  if (order) {
+    order.remove();
+    btnConf.remove();
+  }
   totalOrder();
 }
 function updateCartItem(Item, action) {
@@ -211,6 +222,35 @@ function updateCartItem(Item, action) {
   let total = item.querySelector(".total");
 
   total.innerHTML = `$${parseFloat(price) * parseFloat(quantity.innerHTML)}`;
+}
+
+function removeItemFromCart(itemAdd, item) {
+  let cartQuantity = document.querySelector(".cart .count span");
+  let order = document.querySelector(".total-order");
+  let btnConf = document.querySelector(".confirm");
+  let itemQuantity = itemAdd.dataset.quantity;
+
+  item.remove();
+  count -= itemQuantity;
+  cartQuantity.innerHTML = count;
+
+  itemAdd.classList.remove("clicked");
+  itemAdd.dataset.quantity = 1;
+  itemAdd.innerHTML = "";
+  let img = document.createElement("img");
+  img.src = "../assets/images/icon-add-to-cart.svg";
+  itemAdd.appendChild(img);
+  itemAdd.appendChild(document.createTextNode("Add to cart"));
+
+  if (order) {
+    order.remove();
+    btnConf.remove();
+  }
+  totalOrder();
+
+  if (count === 0) {
+    setCartToDefault();
+  }
 }
 
 function totalOrder() {
@@ -236,5 +276,57 @@ function totalOrder() {
 
   totalOrder.appendChild(titleOrder);
   totalOrder.appendChild(orderPrice);
+
+  let buttonConfirm = document.createElement("button");
+  buttonConfirm.classList.add("confirm");
+  buttonConfirm.innerHTML = "Confirm Order";
+
   cart.appendChild(totalOrder);
+  cart.appendChild(buttonConfirm);
+
+  confirmOrder();
+}
+
+function setCartToDefault() {
+  let cart = document.querySelector(".cart ");
+  let cartQuantity = document.querySelector(".cart .count span");
+  let itemsContainer = document.querySelector(".cart .items");
+  let items = document.querySelectorAll(".cart .item");
+  let order = document.querySelector(".total-order");
+  let btnConf = document.querySelector(".confirm");
+
+  count = 0;
+  cartQuantity.innerHTML = count;
+
+  items.forEach((item) => {
+    item.remove();
+  });
+  itemsContainer.remove();
+
+  if (order) {
+    order.remove();
+    btnConf.remove();
+  }
+
+  let cartImgEmpty = document.createElement("img");
+  cartImgEmpty.classList.add("empty-cart");
+  cartImgEmpty.src = "../assets/images/illustration-empty-cart.svg";
+
+  let cartpEmpty = document.createElement("p");
+  cartpEmpty.innerHTML = "Your added items will appear here";
+
+  cart.appendChild(cartImgEmpty);
+  cart.appendChild(cartpEmpty);
+}
+
+function confirmOrder() {
+  let btnConf = document.querySelector(".confirm");
+  let desserts = document.querySelectorAll(".dessert");
+  btnConf.onclick = function () {
+    desserts.forEach((dessert) => {
+      dessert.remove();
+    });
+    createElement();
+    setCartToDefault();
+  };
 }
